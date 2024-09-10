@@ -90,16 +90,20 @@ class JoomlaBruteforce:
 
     def get_users(self):
         if self.args.userlist:
-            with open(self.args.userlist, "r", encoding="utf-8") as file:
-                return file.read().splitlines()
+            try:
+                with open(self.args.userlist, "r", encoding="utf-8") as file:
+                    return file.read().splitlines()
+            except Exception as e:
+                print(f"Error: {e}")
+                exit(1)
         return [self.args.user]
 
     def get_passwords(self):
         try:
             with open(self.args.passlist, "r", encoding="utf-8") as file:
                 return file.read().splitlines()
-        except FileNotFoundError as e:
-            print(f"Passlist not found: {e}")
+        except Exception as e:
+            print(f"Error: {e}")
             exit(1)
 
     def handle_login_attempts(self):
