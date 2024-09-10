@@ -20,6 +20,7 @@ The "Joomla Brute Forcer" can perform a brute force attack on the Joomla admin p
 To run this script, you need to have the following Python packages installed:
 
 requests: For making HTTP requests.
+
 beautifulsoup4: For parsing HTML and XML documents.
 If these packages are not already installed on your system, you can install them using pip. Run the following command in your terminal:
 
