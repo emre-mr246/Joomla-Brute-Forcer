@@ -125,8 +125,7 @@ class JoomlaBruteforce:
             with self.lock:
                 if not self.success:
                     self.payload_attempts += 1
-                    if self.payload_attempts % 1 == 0:
-                        print(f"Attacking[{self.payload_attempts}]: {user}:{password}")
+                    print(f"Attacking[{self.payload_attempts}]: {user}:{password}")
 
             self.queue.task_done()
 
