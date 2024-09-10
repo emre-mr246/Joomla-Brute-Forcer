@@ -23,10 +23,7 @@ requests: For making HTTP requests.
 
 beautifulsoup4: For parsing HTML and XML documents.
 
-If these packages are not already installed on your system.
-
-Run the following command in your terminal:
-
+If these packages are not already installed on your system. Run the following command in your terminal:
 `pip install requests beautifulsoup4`
 
 ## Image 📸
