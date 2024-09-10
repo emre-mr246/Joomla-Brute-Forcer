@@ -25,6 +25,10 @@ If these packages are not already installed on your system, you can install them
 
 `pip install requests beautifulsoup4`
 
+## Image 📸
+
+![](img/attacking.gif)
+
 ## Arguments 📚
 
 `-u/--url:` URL. Example: http://test.com
