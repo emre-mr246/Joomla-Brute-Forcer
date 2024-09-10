@@ -42,5 +42,5 @@ If these packages are not already installed on your system, you can install them
 ## Usage 🔍
 
 1.  In the project's main directory, compile the library using the `make` command.
-   `$ python3 joomla_brute_forcer.py -u http://test.com -P passwordlist -l admin --proxy 127.0.0.1:8080 -t 10` 
+   `$ python3 joomla_brute_forcer.py -u http://test.com -P passwordlist -L userlist --proxy 127.0.0.1:8080 -t 10` 
 
